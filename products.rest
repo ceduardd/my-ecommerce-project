@@ -1,0 +1,8 @@
+### Fetch all products
+GET http://localhost:5000/api/products
+
+### Incorrect format id failed fecth
+GET http://localhost:5000/api/products/1
+
+### Fetch one product by id
+GET http://localhost:5000/api/products/5fa1de97fe398f3b0a23fd50

@@ -1,8 +1,17 @@
 import express from 'express';
-import dotenv from 'dotenv';
-import products from './data/products';
+import colors from 'colors';
 
-dotenv.config();
+import config from './config';
+
+import productsRoutes from './routes/products.routes';
+
+import { notFound, errorHandler } from './middlewares/errorMiddleware';
+
+import './db';
+
+colors.setTheme({
+  runServer: ['yellow', 'underline', 'bold'],
+});
 
 const app = express();
 
@@ -12,18 +21,16 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
+app.use(productsRoutes);
 
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find(product => product._id === req.params.id);
-  res.json(product);
-});
-
-const PORT = process.env.PORT || 5000;
+// Custom errors
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(
-  PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  config.PORT,
+  console.log(
+    `Server running in ${config.NODE_ENV} mode on port: ${config.PORT}`
+      .runServer
+  )
 );
