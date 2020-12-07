@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import colors from 'colors';
 
 import config from './config';
@@ -21,6 +22,9 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use(cors());
+
+// routes
 app.use(productsRoutes);
 
 // Custom errors
