@@ -7,10 +7,11 @@ import User from './models/userModel';
 import products from './data/products';
 import users from './data/users';
 
+// Themes color for console output
 colors.setTheme({
-  importDataSuccess: ['green', 'inverse', 'bold'],
-  destroyDataSuccess: ['red', 'inverse', 'bold'],
-  failSeeder: ['red', 'underline', 'bold'],
+  importSuccessColor: ['green', 'inverse', 'bold'],
+  destroySuccessColor: ['red', 'inverse', 'bold'],
+  seederFailedColor: ['red', 'underline', 'bold'],
 });
 
 import './db';
@@ -33,9 +34,9 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts);
 
-    console.log(`Data inported!`.importDataSuccess);
+    console.log(`Data inported!`.importSuccessColor);
   } catch (error) {
-    console.error(`Error: ${error.message}`.failSeeder);
+    console.error(`Error: ${error.message}`.seederFailedColor);
   }
 };
 
@@ -45,9 +46,9 @@ const destroyData = async () => {
     await Product.deleteMany();
     await Order.deleteMany();
 
-    console.log(`Data destroyed!`.destroyDataSuccess);
+    console.log(`Data destroyed!`.destroySuccessColor);
   } catch (error) {
-    console.error(`Error: ${error.message}`.failSeeder);
+    console.error(`Error: ${error.message}`.seederFailedColor);
   }
 };
 

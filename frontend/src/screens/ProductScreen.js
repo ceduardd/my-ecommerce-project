@@ -56,7 +56,7 @@ const ProductScreen = ({ history, match }) => {
           <Col md={3}>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h3>{product.name}</h3>
+                <h3 className="py-3 m-md-0 p-md-0">{product.name}</h3>
               </ListGroup.Item>
               <ListGroup.Item>
                 {product.rating && (

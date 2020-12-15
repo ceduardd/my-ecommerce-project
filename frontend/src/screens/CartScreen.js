@@ -19,8 +19,6 @@ const CartScreen = ({ match, location, history }) => {
 
   const { qty } = parse(location.search);
 
-  // console.log(qty);
-
   const dispatch = useDispatch();
   const { cartItems } = useSelector(state => state.cart);
 
@@ -54,11 +52,13 @@ const CartScreen = ({ match, location, history }) => {
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3}>
+                  <Col md={3} className="my-2 my-md-0">
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
-                  <Col md={2}>{item.price}</Col>
-                  <Col md={2}>
+                  <Col md={2} className="mb-2 mb-md-0">
+                    {item.price}
+                  </Col>
+                  <Col md={2} className="mb-2 mb-md-0">
                     <Form.Control
                       as="select"
                       value={item.qty}

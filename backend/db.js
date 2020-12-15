@@ -3,9 +3,10 @@ import colors from 'colors';
 
 import config from './config';
 
+// Themes color for console output
 colors.setTheme({
-  connSuccess: ['cyan', 'underline', 'bold'],
-  faildConn: ['red', 'underline', 'bold'],
+  connSuccessColor: ['cyan', 'underline', 'bold'],
+  connFailedColor: ['red', 'underline', 'bold'],
 });
 
 (async () => {
@@ -15,9 +16,9 @@ colors.setTheme({
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
-    console.log(`MongoDB connected to: ${db.connection.host}`.connSuccess);
+    console.log(`MongoDB connected to: ${db.connection.host}`.connSuccessColor);
   } catch (error) {
-    console.error(`Error: ${error.message}`.faildConn);
+    console.error(`Error: ${error.message}`.connFailedColor);
     process.exit(1);
   }
 })();

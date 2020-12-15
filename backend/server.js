@@ -6,13 +6,15 @@ import config from './config';
 
 import productsRoutes from './routes/products.routes';
 import usersRoutes from './routes/users.routes';
+import ordersRoutes from './routes/orders.routes';
 
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
 
 import './db';
 
+// Themes color for console output
 colors.setTheme({
-  runServer: ['yellow', 'underline', 'bold'],
+  serverRunningColor: ['yellow', 'underline', 'bold'],
 });
 
 const app = express();
@@ -30,6 +32,7 @@ app.use(cors());
 // routes
 app.use(productsRoutes);
 app.use(usersRoutes);
+app.use(ordersRoutes);
 
 // Custom errors
 app.use(notFound);
@@ -39,6 +42,6 @@ app.listen(
   config.PORT,
   console.log(
     `Server running in ${config.NODE_ENV} mode on port: ${config.PORT}`
-      .runServer
+      .serverRunningColor
   )
 );
