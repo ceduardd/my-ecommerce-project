@@ -35,7 +35,7 @@ const LoginScreen = ({ location, history }) => {
       <h1 className="my-3">Sign In</h1>
 
       {error && <Message variant="danger">{error}</Message>}
-      {loading && <Loader />}
+      {loading && <Loader spacing="mb-3" />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>

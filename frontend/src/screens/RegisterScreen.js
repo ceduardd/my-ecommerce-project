@@ -48,7 +48,7 @@ const RegisterScreen = ({ location, history }) => {
 
       {error && <Message variant="danger">{error}</Message>}
       {message && <Message variant="danger">{message}</Message>}
-      {loading && <Loader />}
+      {loading && <Loader spacing="mb-3" />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>

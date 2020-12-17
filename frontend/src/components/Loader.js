@@ -1,9 +1,10 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
-const Loader = () => {
+const Loader = ({ spacing }) => {
   return (
     <Spinner
+      className={spacing ? spacing : ''}
       animation="border"
       role="status"
       style={{

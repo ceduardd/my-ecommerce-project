@@ -1,9 +1,16 @@
-main {
-  min-height: 80vh;
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h3 {
-  padding: 1rem 0;
+main {
+  /* min-height: 80vh; */
+  flex-grow: 1;
+}
+
+footer {
+  justify-self: flex-end;
 }
 
 .rating span {

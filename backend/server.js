@@ -1,4 +1,5 @@
 import express from 'express';
+import morgan from 'morgan';
 import cors from 'cors';
 import colors from 'colors';
 
@@ -20,6 +21,8 @@ colors.setTheme({
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
   res.json({
@@ -30,9 +33,10 @@ app.get('/', (req, res) => {
 app.use(cors());
 
 // routes
-app.use(productsRoutes);
-app.use(usersRoutes);
-app.use(ordersRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/orders', ordersRoutes);
+app.get('/api/config/paypal', (req, res) => res.send(config.PAYPAL_CLIENT_ID));
 
 // Custom errors
 app.use(notFound);
