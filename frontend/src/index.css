@@ -16,3 +16,7 @@ footer {
 .rating span {
   margin: 0.1rem;
 }
+
+.summary {
+  min-width: 300px;
+}

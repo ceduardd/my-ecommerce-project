@@ -3,10 +3,10 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
-  USER_LOGOUT,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_LOGOUT,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
@@ -14,6 +14,16 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_FAIL,
+  USER_UPDATE_RESET,
   USER_DETAILS_RESET,
 } from '../constants/userConstants';
 
@@ -57,7 +67,7 @@ export const logout = () => async dispatch => {
   localStorage.removeItem('cartItems');
   localStorage.removeItem('shippingAddress');
   localStorage.removeItem('paymentMethod');
-  dispatch({ type: USER_DETAILS_RESET });
+
   dispatch({ type: USER_LOGOUT });
 
   document.location.href = '/login';
@@ -103,7 +113,7 @@ export const register = (name, email, password) => async dispatch => {
   }
 };
 
-export const getUserDetails = () => async (dispatch, getState) => {
+export const getUserDetails = id => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -120,7 +130,7 @@ export const getUserDetails = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      'http://localhost:5000/api/users/profile',
+      `http://localhost:5000/api/users/${id}`,
       config
     );
 
@@ -142,6 +152,10 @@ export const getUserDetails = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const resetDetails = () => ({
+  type: USER_DETAILS_RESET,
+});
 
 export const updateUserProfile = user => async (dispatch, getState) => {
   try {
@@ -206,4 +220,126 @@ export const updateUserProfile = user => async (dispatch, getState) => {
 
 export const resetUserProfile = () => ({
   type: USER_UPDATE_PROFILE_RESET,
+});
+
+export const listUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get('http://localhost:5000/api/users', config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const deleteUser = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: USER_DELETE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateUser = user => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/users/${user._id}`,
+      user,
+      config
+    );
+
+    dispatch({ type: USER_UPDATE_SUCCESS });
+
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+
+    dispatch({ type: USER_DETAILS_RESET });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: message,
+    });
+  } finally {
+    dispatch(resetUpdate());
+  }
+};
+
+export const resetUpdate = () => ({
+  type: USER_UPDATE_RESET,
 });

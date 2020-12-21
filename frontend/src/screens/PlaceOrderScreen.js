@@ -9,6 +9,9 @@ import { createOrder, resetOrderCreated } from '../actions/orderActions';
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
   const cart = useSelector(state => state.cart);
 
   if (!cart.shippingAddress.address) {
@@ -16,6 +19,12 @@ const PlaceOrderScreen = ({ history }) => {
   } else if (!cart.paymentMethod) {
     history.push('/payment');
   }
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/login');
+    }
+  });
 
   // Calculate prices
   const addDecimals = num => {

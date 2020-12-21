@@ -33,9 +33,9 @@ const ProfileScreen = ({ history }) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-      if (!user || !user.name) {
+      if (!user || !user.name || user._id !== userInfo._id) {
         dispatch(listMyOrders());
-        dispatch(getUserDetails());
+        dispatch(getUserDetails('profile'));
       } else {
         setName(user.name);
         setEmail(user.email);
