@@ -25,7 +25,7 @@ const SearchBox = () => {
       ></Form.Control>
       <Button
         type="submit"
-        variant="outline-success"
+        variant="outline-primary"
         className="ml-sm-2 mt-2 mt-sm-0"
       >
         Search

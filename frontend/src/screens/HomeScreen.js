@@ -25,7 +25,7 @@ const HomeScreen = ({ history, match }) => {
 
   return (
     <>
-      <Meta title="Welcome To OMG Gadgets | Home" />
+      <Meta title="Welcome To OMG Gadgets! | Home" />
       {!keyword ? (
         <ProductCarousel />
       ) : (
