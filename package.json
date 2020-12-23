@@ -1,5 +1,5 @@
 {
-  "name": "my-ecommerce-project",
+  "name": "omg-gadgets",
   "version": "1.0.0",
   "description": "My first eCommerce project with MERN Stack",
   "main": "server.js",
@@ -9,7 +9,8 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "babel-node backend/seeder",
-    "data:destroy": "babel-node backend/seeder --destroy"
+    "data:destroy": "babel-node backend/seeder --destroy",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Eduardo Chavez",
   "license": "MIT",
