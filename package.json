@@ -4,17 +4,19 @@
   "description": "My first eCommerce project with MERN Stack",
   "main": "server.js",
   "scripts": {
-    "start": "node backend/server",
+    "start": "node build/server",
+    "build": "babel backend --out-dir build",
     "server": "nodemon backend/server --exec babel-node",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "babel-node backend/seeder",
     "data:destroy": "babel-node backend/seeder --destroy",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Eduardo Chavez",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -22,15 +24,15 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.11.8",
     "morgan": "^1.10.0",
     "multer": "^1.4.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
   }

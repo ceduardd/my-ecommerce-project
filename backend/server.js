@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
@@ -30,7 +32,7 @@ if (config.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// CORS configure
+// Cors configure
 app.use(cors());
 
 // Routes
@@ -43,6 +45,7 @@ app.get('/api/config/paypal', (req, res) => res.send(config.PAYPAL_CLIENT_ID));
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
+// Deploy config
 if (config.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/frontend/build')));
 
