@@ -3,8 +3,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAdress } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
-
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 import useInput from '../hooks/useInput';
 
 const ShippingScreen = ({ history }) => {
@@ -43,54 +43,57 @@ const ShippingScreen = ({ history }) => {
   };
 
   return (
-    <FormContainer>
-      <CheckoutSteps step1 step2 />
+    <>
+      <Meta title="Shipping Info" />
+      <FormContainer>
+        <CheckoutSteps step1 step2 />
 
-      <h1 className="my-3">Shipping</h1>
+        <h1 className="my-3">Shipping</h1>
 
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter address"
-            autoComplete="off"
-            {...addressProps}
-          />
-        </Form.Group>
-        <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter city"
-            autoComplete="off"
-            {...cityProps}
-          />
-        </Form.Group>
-        <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter postal code"
-            autoComplete="off"
-            {...postalCodeProps}
-          />
-        </Form.Group>
-        <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter country"
-            autoComplete="off"
-            {...countryProps}
-          />
-        </Form.Group>
+        <Form onSubmit={submitHandler}>
+          <Form.Group controlId="address">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter address"
+              autoComplete="off"
+              {...addressProps}
+            />
+          </Form.Group>
+          <Form.Group controlId="city">
+            <Form.Label>City</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter city"
+              autoComplete="off"
+              {...cityProps}
+            />
+          </Form.Group>
+          <Form.Group controlId="postalCode">
+            <Form.Label>Postal Code</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter postal code"
+              autoComplete="off"
+              {...postalCodeProps}
+            />
+          </Form.Group>
+          <Form.Group controlId="country">
+            <Form.Label>Country</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter country"
+              autoComplete="off"
+              {...countryProps}
+            />
+          </Form.Group>
 
-        <Button type="submit" variant="primary">
-          Continue
-        </Button>
-      </Form>
-    </FormContainer>
+          <Button type="submit" variant="primary">
+            Continue
+          </Button>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

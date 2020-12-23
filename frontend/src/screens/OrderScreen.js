@@ -9,15 +9,19 @@ import {
   Card,
   ListGroupItem,
   Spinner,
+  Button,
 } from 'react-bootstrap';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 import {
   getOrderDetails,
   payOrder,
   resetOrderPay,
+  resetOrderDeliver,
+  deliverOrder,
 } from '../actions/orderActions';
 
 const OrderScreen = ({ match, history }) => {
@@ -32,6 +36,9 @@ const OrderScreen = ({ match, history }) => {
 
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector(state => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -76,14 +83,19 @@ const OrderScreen = ({ match, history }) => {
   }, []);
 
   useEffect(() => {
-    if (!order || successPay || order._id !== orderId) {
+    if (!order || successPay || successDeliver || order._id !== orderId) {
       dispatch(resetOrderPay());
+      dispatch(resetOrderDeliver());
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId, successPay]);
+  }, [dispatch, order, orderId, successPay, successDeliver]);
 
   const successPaymentHandler = paymentResult => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -94,6 +106,7 @@ const OrderScreen = ({ match, history }) => {
     </Message>
   ) : (
     <>
+      <Meta title="Order Info" />
       <h1 className="my-3">Order {order._id}</h1>
       <Row>
         <Col md={8}>
@@ -198,7 +211,7 @@ const OrderScreen = ({ match, history }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!order.isPaid && order.user._id === userInfo._id && (
                 <ListGroupItem>
                   {loadingPay && (
                     <p className="text-center mb-3 mt-1">
@@ -223,6 +236,33 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </ListGroupItem>
               )}
+              {loadingDeliver && (
+                <p className="text-center mt-2 mb-1">
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    className="mr-2"
+                  />
+                  Updating order status...
+                </p>
+              )}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

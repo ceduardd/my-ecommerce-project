@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 import { logout } from '../actions/userActions';
+import SearchBox from './SearchBox';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,11 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>BestsellerShop</Navbar.Brand>
+            <Navbar.Brand>OMG Gadgets</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <SearchBox />
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
@@ -29,7 +31,7 @@ const Header = () => {
                 </Nav.Link>
               </LinkContainer>
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin" id="adminmenu">
+                <NavDropdown title="Management" id="adminmenu">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
